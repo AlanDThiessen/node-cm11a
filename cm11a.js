@@ -221,7 +221,7 @@
         var controller = this;
 
         if (data !== undefined && data !== null) {
-            data = _.isArray(data) ? data : [data];
+            data = Array.isArray(data) ? data : [data];
             this.transmitBuffer.push([data, callback]);
         }
 
@@ -330,10 +330,10 @@
 
 
     Controller.prototype.address = function (addresses, callback) {
-        addresses = _.isArray(addresses) ? addresses : [addresses];
+        addresses = Array.isArray(addresses) ? addresses : [addresses];
         oneCallback = _.after(addresses.length, callback);
 
-        _.each(addresses, function (address) {
+        addresses.forEach(function(address) {
             if (!(address instanceof X10Address)) {
                 address = new X10Address(address);
             }
