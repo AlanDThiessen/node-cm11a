@@ -36,15 +36,18 @@
 
 
     var SIGNAL_RESPONSE = {};
+    SIGNAL_RESPONSE[cm11aCodes.READY] = HandleReady;
+    SIGNAL_RESPONSE[cm11aCodes.POLL] = HandlePoll;
+    SIGNAL_RESPONSE[cm11aCodes.POWER_FAIL] = HandlePowerFail;
 
 
-    SIGNAL_RESPONSE[cm11aCodes.READY] = function (controller) {
+    function HandleReady(controller) {
         controller.isReady = true;
         controller.emit('ready');
-    };
+    }
 
 
-    SIGNAL_RESPONSE[cm11aCodes.POLL] = function (controller) {
+    function HandlePoll(controller) {
         controller.sp.once("data", function (data) {
             var length, functionAddressMask;
 
@@ -87,13 +90,13 @@
 
         controller.emit('poll');
         controller.sp.write([cm11aCodes.ACK]);
-    };
+    }
 
 
-    SIGNAL_RESPONSE[cm11aCodes.POWER_FAIL] = function (controller) {
+    function HandlePowerFail(controller) {
         controller.emit('powerfail');
         controller.sp.write([cm11aCodes.CLOCK_UPDATE]);
-    };
+    }
 
 
     /**
