@@ -6,11 +6,6 @@
 (function() {
     'use strict';
 
-    /**
-     * Module Dependencies
-     */
-    var _ = require("underscore");
-
     // The housecodes and device codes range from A to P and 1 to 16 respectively although they do not follow a binary sequence. The encoding format for these codes is as follows:
     var deviceCodes = [0x6, 0xE, 0x2, 0xA, 0x1, 0x9, 0x5, 0xD, 0x7, 0xF, 0x3, 0xB, 0x0, 0x8, 0x4, 0xC];
 
@@ -126,7 +121,7 @@
         try {
             switch (typeof address) {
                 case "object":
-                    if (_.isArray(address) && address.length === 2) {
+                    if (Array.isArray(address) && address.length === 2) {
                         this.houseCode = new HouseCode(address[0]);
                         this.unitCode = new UnitCode(address[1]);
                     }
@@ -328,7 +323,12 @@
     ];
 
 
-    var funcCodes = _.pluck(functionCodes, "func");
+    var funcCodes = [];
+
+    funcCodes.forEach(function(code) {
+        funcCodes.push(code.func);
+    });
+
 
     function Command(command) {
         this.functionCode = null;
